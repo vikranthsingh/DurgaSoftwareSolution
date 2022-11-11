@@ -1,0 +1,1037 @@
+Module 1 = 	1)Data Hiding
+			2)Abstraction
+			3)Encapsulation
+			4)Tightly Encapsulated class
+
+Module 2	5)IS-A relationship(Inheritance)
+			6)HAS-A relationship
+			7)Method signature
+			8)Overloading
+			9)Over-riding
+			10)Static control flow
+			11)Instance control flow
+			12)Constructors
+			13)Coupling
+			14)Cohesion
+			15)Type-casting
+
+
+
+
+1)Data Hiding = Outside person cant access our internal data directly or our internal data should not go out directly is called as Data Hiding. After validation or authentication outside person can access out internal data
+Eg: After providing proper username and password we can access out gmail inbox information
+**declaring data member(variable) as private is highly recommended is Data Hiding
+Advantage = 1) security
+
+2)Abstraction(ATM) =	Hiding internal implementation and highlight set of services we are offering is a concept of Abstraction.
+Eg: Through bank ATM GUI screen bank is offering set of services without highlighting internal implementation
+Advantage = 1) security
+
+3)Encapsulation(Capsule) = The process of binding data and corresponding methods into a single unit is Encapsulation
+Encapsulation = data members + methods
+Encapsulation = Data Hiding + Abstraction
+Advantage = 1) security
+
+4)Tightly Encapsulated = A Class is said to be tightly encapsulated if and only if each and very variable declared as private whether class contains corresponding getters and setters method or not and whether method are declared as public or not this things we are not required to check
+Note : If the parent class is not tightly encapsulated then no child class is tightly encapsulated
+
+
+
+
+********************************************* Module 2 *********************************************
+
+5)IS-A relationship(Inheritance) = 	1)It is also known as Inheritance
+									2)Advantage = code re-usability
+									3)By using extends keyword we can implement IS-A relationship
+                class P{
+                    public void m1()   {
+                        sysout("parent");
+                    }
+                }
+                class C extends P{
+                     public void m2()   {
+                        sysout("child");
+                     }
+                }
+                class test{
+                    public static void main(String[] args){
+                          P p1 = new C();
+                          p1.m1(); (Valid)
+                          p1.m2(); (In-Valid)
+                          (Parent ref. can be used to hold child object but by using Parent ref. we cant call child specific methods but we can call methods present in Parent class)
+                	}
+                }
+** Conclusion =     1)whatever method parents has by default available to child and hence on the child reference we can call both Parent and child class methods.
+                    2)whatever method child has by default not available to Parent and hence on the Parent ref. we cant call child specific methods.
+                    3)Parent ref. can be used to hold child object but by using the ref. we cant call child specific methods but we can call methods present in Parent class.
+                    4)Parent ref. can be used to hold child Object but Child Ref. cant be used to hold Parent Object
+                    5)Most common methods which are applicable for any type of child class we have to define in parent class
+                    6)Specific methods which are applicable for a particular child we have to define in child class
+
+                    Total Java API is implemented based on Inheritance Concept.
+                    Most Common methods which are applicable for any java object are defined in Object Class and hence every class in Java is a Child Class of Object either directly or indirectly os that object class method by default to every java class without re-writing due to this Object class act as root for all java classes
+                    throwable class defines the most common methods which are req. for every Exception and Error classes hence this class act as root for java exception hierarchy
+
+Multiple-Inheritance = A java class cant extend more then one class at a time hence java wont provide support for multiple-inheritance in classes
+                        class A extends B, C {  (in-valid)
+                        }
+
+              Note : 1)If our class doesn't extends any other class then only our class is direct Child class of Object
+                       class A extends Object {}
+                     2)If our class extends any other class then our class is indirect child class of Object.
+                        Object <== B <== A (Multi-level Inheritance)
+                        class A extends B{}
+                        class B extends Object{}
+                     3) Either directly or in-directly java wont provide support for Inheritance with respect to Classes
+                     4) There may be a chance of Ambiguity problem hence Java wont provide support for Multiple-Inheritance
+                     P1 m1();           P2 m1();
+                               c.m1(); (Ambiguity Problem)
+
+                      But Interface can extend any no of Interface simultaneously hence Java provide for Multiple-Inheritance with respect to Interfaces
+                      interface A       interface B
+                        interface C extends A,B
+
+                      Ambiguity problem not there in Interfaces?
+                      interface A m1();      interface B m1();
+                                   interface C extends A,B
+                                            m1();
+                                   implementation class {
+                                            m1(){
+                                            sysout("Print)
+                                            }
+                                          }
+
+                      Even though multiple method declaration is available but implementation is unique and hence there is not chance of ambiguity in interfaces
+                      Through Interfaces we wont get any inheritance
+
+
+6)HAS-A relationship = 1)Has a relationship is also know as Composition | Aggregation
+                       2)There is no specific keyword to implement has a relation but most of the time we are depending on new keyword
+                       3)The main advantage of Has a relationship is code re-usability of the code
+                                Eg :
+                                class Engine {
+                                //engine specific methods
+                                }
+                                class Car {
+                                Engine e = new Engine();
+                                }
+                                Car has a engine ref.
+                       Composition = without container Object there is no contained Object then container and contained objects are strongly associated and this is known as Composition
+                       Aggregation = without container Object if is a chance of contained Object then container and contained objects are weakly associated and this is known as Aggregation
+                       Note : 1) In composition object are strongly associated where as in Aggregation objects are weakly associated
+                              2) In composition container object holds contained object where as in aggregation container object holds just references of contained object.
+
+
+IS a Relationship =  if we want total functionality of a class automatically then we should go for IS a Relationship.
+Has a Relationship = if we want part of the functionality then we should go for Has a Relationship
+
+Method Signature = In java method signature consist of method name and argument type and return type is not part of Method Signature in java
+                        public static int m1(int i, float f)
+    Method Signature =  m1(int, float)
+    Compiler will use Method Signature to resolve method calls
+    Every Java class contains all methods in Method Table
+    Within a class two methods with the same signature is not allowed
+
+
+8)Overloading = Two methods are said to be over-loaded if and only if both methods having same name but different argument types
+                In Java we can declare multiple methods with same name but diff. argument types
+                **** In over-loading method resolution always take care by compiler based on reference type hence over-loading is also considered as compile type poly-morphism or static poly-morphism early binding
+
+                **Case 1 : Automatic-promotion in overloading while resolving over-loaded methods if exact match is not available then we don't get any compile time error immediately first it will promote argument to next level and check whether matched method is available or not,
+                if matched method is available then it will be considered and if the matched method is not available then compiler promotes argument to next level,
+                This process will be continued until all possible promotions still if the matched method is not available then we will get compile time error
+
+                **Case 2: While resolving over-loaded methods compiler always give presidence for child type argument when compared with parent type argument
+                **Case 3: In general var..arg will get least priority if no other method matched then only var... method will get the chance it is exactly same sa default case inside switch
+                In over-loading method resolution always takes care by compiler based on Reference type
+                In overloading runtime object wont play any role.
+
+
+
+9)Over-riding = whatever methods parents has by default available to child through Inheritance, If child class not satisfied with parent class implementation then child is allowed to redefine the method based on its requirement this is called Over-riding
+                Parent class method which is over-ridden is called as over-ridden method and child class method which is over-riding is called over-riding method
+                Eg:
+                    class Parent{
+                        public void marry(){
+                        System.out.println("Marry");
+                            }
+                    }
+                    class Child extends Parent{
+                                    public void marry(){
+                                    System.out.println("No Marry");
+                                        }
+                                    }
+                    public static void main(String[] args){
+                        Parent p = new Child();
+                        p.marry() ==> child method is called
+                    }
+
+                    ** In-over-riding method resolution always take care by JVM based on Runtime Object and hence Over-riding is also considered as Runtime polymorphism or dynamic polymorphism or late binding
+
+Rules for Over-riding = 1)In-overriding methods name and argument types must be same i.e method signature must be same
+                        2)In-overriding return type must be same but this is applicable until 1.4 version only form 1.5 onwards we can take co-variant return types according to this child class method return type need not be same as parent method return type its child type also allowed
+                        *** Co-variant
+                        class P {
+                            public Object m1(){
+                            return null;
+                            }
+                        }
+                        class C extends P{
+                            public String m1(){
+                            return null;
+                            }
+                        }
+
+            3)        Parent class method return type     Object                                  Number                                      String (invalid)            double(invalid) co-variant return type concept is applicable only for Object types but not for primitive types
+                      child class method return type      Object | String | StringBuffer.....     Number | int | float | double ...           Object                      int
+
+            4)        Parent class private methods not available to Child Class and hence Over-riding concept is not applicable for private methods
+                      Based on our requirement exactly same private method in child class it is valid but not over-riding
+                      class P{
+                        private void m1(){
+
+                        }
+                      }
+                      class C extends P{         (it is valid but not over-riding)
+                            private void m1(){
+
+                          }
+                        }
+
+            5)      We cant over-ride parent class final method in Child class if we are trying to over-ride we will get Compile time Error
+                    Over-ridden method is final
+                    class P{
+                           public final void m1(){
+
+                            }
+                        }
+                    class C extends P{
+                            public void m1(){
+
+                             }
+                          }
+            6)      Parent class abstract methods we should over-ride in child class to provide implementation
+                    abstract class P{
+                         public abstract void m1();
+                    }
+                    class C extends P{
+                         public void m1(){
+                         }
+                    }
+
+            7)      We can over-ride non abstract method as abstract
+                    class P{
+                            public void m1(){}
+                            }
+                    abstract class C extends P{
+                            public abstract void m1();
+                            }
+                            the advantage of this approach is we can stop the availability of parent method implementation to the next level child classes
+
+                    In-overriding the following modifiers will not keep any restriction like  synchronized, native, strictfp
+
+                    Parent method   final           non-final       abstract                        synchronized
+
+                    Child method    non-final       final           non-abstract(vice-versa)        non-synchronized
+
+                                    (invalid)       valid           valid                           valid
+
+            8)      While over-riding we cant reduce scope of access modifiers but we can increase the scope
+                    class P{
+                         public void m1(){}
+                    }
+                    class C extends P{
+                         void m1(){
+                            }
+                    }
+
+                    public
+                    protected
+                    default
+                    private
+
+                    Parent class method     Public      protected                   default                             private
+                    Child class method      Public      protected | public          default | protected | public        over-riding concept not applicable for private methods
+
+Throwable : If child class throws any checked exception compulsory parent class method should throw same checked exception or its Parent otherwise we will get compile time error but there are no restriction for Un-checked exception
+            class P {
+                public void m1() throws IOException{}
+            }
+            class C extends P{
+                 public void m1() throws EOFException, InterruptedException{}
+            }
+(Valid)     Parent      public void m1() throws Exception
+            Child       public void m1()
+
+(In-Valid)  Parent      public void m1()
+            Child       public void m1() throws Exception
+
+(Valid)     Parent      public void m1() throws Exception
+            Child       public void m1() throws IOException
+
+(In-Valid)  Parent      public void m1() throws IOException
+            Child       public void m1() throws Exception
+
+(Valid)     Parent      public void m1() throws IOException
+            Child       public void m1() throws FileNoteFoundException, EOFException
+
+(In-Valid)  Parent      public void m1() throws IOException
+            Child       public void m1() throws EOFException, InterruptedException
+
+(Valid)     Parent      public void m1() throws IOException
+            Child       public void m1() throws AE, NPE.. (Un-checked exception has no limits)
+
+
+Over-riding with respect to Static methods: 1) we cant over-ride a static method as non-static other wise we will get compile time error
+                                                class p{
+                                                    public static void m1(){}
+                                                }
+                                                class C extends P {
+                                                    public void m1(){}
+                                                }
+                                              2)similarly we cant over-ride a non-static method as static
+                                              class P{
+                                                public void m1(){}
+                                              }
+                                              class c extends P{
+                                                public static void m1(){}
+                                              }
+
+                                              3) If both parent and child class method are static then we wont get any compile time error, itseems over-riding concept applicable for static methods but it is not over-riding and its method hiding
+                                                class P{
+                                                  public static void m1(){}
+                                                }
+                                                 class c extends P{
+                                                    public static void m1(){}
+                                                }
+Method-Hiding:  1)All rules of Method hiding are exactly same as Over-riding except the following differences
+                2)Both child and parent method should be static
+                3)Compiler is responsible for method resolution based on Reference type
+Over-riding:    1)Both child and parent method should be non-static
+                2)JVM is responsible for method resolution based on Runtime Object
+
+Polymorphism:   One name but multiple forms is the concept of Polymorphism.
+                Eg: 1) Method name is the same but different argument types is known as Over-Loading
+                    2) Method signature is the same but in parent class one type of implementation and in the child class another type of implementation is known as Over-riding
+                    3) Usage of Parent reference to hold child object is Polymorphism
+
+                    4) Parent class can be used to hold child object but by using that reference we can call only the methods available in Parents class and we cant call child specific methods
+                    P m1();
+                    C m2();
+                    P p = new C();
+                    p.m1();
+                    p.m2(); invalid
+
+                    But by Using child reference we can call both parent and child class methods
+                    C c = new C();
+                    c.m1(); valid
+                    c.m2(); valid
+
+                   ***  When we should go for Parent reference to hold child object?
+                   If we don't know exact runtime type of object then we should go for Parent reference
+                   Eg : the first element present in array list can be any type student/string/stringBuffer/customer Object so the return type of get method is Object, which can hold any object
+                   Object O = l.get(0);
+
+                   C c = new C(); = 1) We can use this approach if we know exact runtime type of object
+                   advantage        2)by using child reference we can call both parent class and child class methods
+                   dis-advantage    3) we can use child reference to hold only particular child class object
+                   P p = new P(); = 1) We can use this approach if we don't know exact runtime type of object
+                   dis-advantage    2)by using parent reference we can call only methods available in parent class and we cant call child specific methods.
+                   advantage        3)we can use parent reference to hold any child class object.
+
+
+Pillars of OOPS : Encapsulation, Inheritance, Polymorphism
+
+
+Coupling:   The degree of dependency between the components is called Coupling
+Tightly Coupling:   If dependency is more
+Loosely Coupling:   If dependency is less
+    Eg:
+        class A {
+            static int a = B.b;
+        }
+
+        class B {
+            static int b = C.c;
+        }
+
+        class C {
+            static int c = D.m();
+        }
+
+        class D {
+            public static int m() {
+                return 7;
+            }
+        }
+
+        public class Practise {
+            public static void main(String[] args) {
+                System.out.println(A.a);
+            }
+        }
+The above components are said to be tightly coupled with each other because dependency between the components is more.
+Tightly coupling is not a good programming practice because it has several disadvantages
+        1) without affecting remaining components we cant modify any component and hence enhancement will become difficult
+        2) reduce code re-usability
+        3) reduces maintainability of application
+        4) hence we have to maintain dependency between the components as less as possible i.e loosely coupling is good programming practice
+
+Cohesion:   For every component a clear well defined functionality is defined then that component is said to follow high cohesion.
+High Cohesion:  is always a good programming practice because it has several advantages
+                1) without affecting remaining components we can modify any component hence enhancement will become easy
+                2) it promotes re-usability of the code(wherever validation is required we can re-use the same validate servlet without re-writing)
+                3) it improves maintainability of the application
+Note : Loosely coupling and High Cohesion are good programming practices.
+
+Object Type Casting: We can use parent reference to hold child object
+                    Eg: Object o = new String("durga");
+                    we can use interface reference to hold implemented class object
+                    Runnable r = new Thread();
+                    Eg:
+
+                    interface Student{
+                        void details();
+                    }
+                    class Vikranth implements Student{
+
+                        @Override
+                        public void details() {
+                            System.out.println("Rollno");
+                        }
+                    }
+                    public class Practise {
+                        public static void main(String[] args) {
+                            Student s1 = new Vikranth();
+                            s1.details();
+                        }
+                    }
+
+A b = (C) d;
+A = class | interface name
+b = name of reference variable
+C = class | interface name
+d = reference variable name
+
+Compile rule
+Note 1)Compile type checking 1
+      The type of 'd' and 'C' must have some relation either child to parent or parent to child or same type
+      otherwise we will get compile time error in-convertible types found d type required C
+      Object o = new String("Hi");
+      StringBuffer b = (StringBuffer) o;
+
+      Eg:   String s = new String("Hi");
+            StringBuffer sb = (StringBuffer) s;
+            Error: In-convertible types
+
+Note 2) Compile time checking 2
+        'C' must be either same or derived(child) type of A either wise we will get compile time error saying in-compatible types
+        Eg: 1
+        Object o = new String("Hi");
+        StringBuffer sb = (StringBuffer) o; (valid)
+
+        Object o = new String("Hi");
+        StringBuffer sb = (String) o; (in-valid)
+
+
+JVM rule
+Note 3 : Runtime checking
+         Runtime object type of 'd' must be either same or derived type of 'C' otherwise we will get runtime exception saying classCastException
+         Object o = new String("Hi");
+         StringBuffer sb = (StringBuffer) o;
+         (ClassCastException)
+
+         Eg:
+         Object o = new String("Hi");
+         Object o1 = (String) o;
+
+Through Type-casting we are not creating any new object for the existing object we are providing another type of reference variable i.e we are performing type-casting(conversion) but not object casting
+Eg:    String s = new String("Hi"); + Object o = (Object)s;
+       Object o = new String("Hi")
+
+Eg:     Integer I = new Integer(7);
+        Number n = (Number) I;
+        Object o = (Object) n;
+
+        Object o = new Integer(7)
+        sout(I == n) true
+        sout(n == o) true
+        Here we are creating new reference variable but no objects
+C c = new C();
+B b = new C(); or (B)c
+A a = new C(); or (A)(B)c
+
+A a = new C();
+
+Eg 1: P ==> m1();
+    C ==> m2();
+
+    C c = new C();
+    c.m1(); valid
+    c.m2(); valid
+    P p = new C(); or (P)c
+    (P)c.m1(); valid
+    (P)c.m2(); in-valid Parent reference can be used to hold child object but by using that reference we cannot call child specific methods and we can only methods available in parent class
+
+Eg 2: Over-riding
+    It is over-riding and method resolution is always based on Runtime Object
+    A ==> m1(){sout("A")}
+    B ==> m1(){sout("B")}
+    C ==> m1(){sout("C")}
+
+    C c = new C();
+    c.m1();                             C
+    B b = new C(); or (B)c.m1();        C
+    A a = new C(); or (A)(B)c.m1()      C
+
+Eg 3: Method Hiding and method resolution is always based on Reference type
+        A ==> static m1(){sout("A")}
+        B ==> static m1(){sout("B")}
+        C ==> static m1(){sout("C")}
+
+        C c = new C();
+        c.m1();                             C
+        B b = new C(); or (B)c.m1();        B
+        A a = new C(); or (A)(B)c.m1()      A
+
+
+Eg 4: Variable resolution is always based on reference type but not based on Runtime Object
+    A ==> int x = 777;
+    B ==> int x = 888;
+    C ==> int x = 999;
+
+    C c = new C();
+    sout(c.x)                               999
+    B b = new C(); or sout((B)c.x);         888
+    A a = new C(); or sout((A)(B)c.x);      777
+
+Static Control Flow:    Whenever we are executing a java class the following sequence of steps will be executed as static control flow
+                        1)Identification of static members from top to bottom
+                        2)Execution of static variable assignment and static blocks from top to bottom
+                        3)Execution of main method
+
+                        class Base{
+                            static int i = 10;                  i=0 [RIWO]   read indirectly write only
+                            static                              j=0 [RIWO]   read indirectly write only
+                            {                                   i=0 [R&W]
+                                m1();                           j=0 [R&W]
+                                System.out.println("First static block");
+                            }
+                            public static void main(String[] args){
+                                m1();
+                                System.out.println("Main method");
+                            }
+                            public static void m1(){
+                                System.out.println(j);
+                            }
+                            static{
+                                System.out.println("second static block" );
+                            }
+                            static int j = 20;
+                            }
+
+                            Output: 0
+                                    First static block
+                                    second static block
+                                    20
+                                    Main method
+
+[RIWO] Read indirectly write only :  1)Inside static block if we are trying to read a variable that read operation is called Direct read
+                                     2)If we are calling a method and with in that method if we are trying to read a variable that read operation is called In-direct read
+                                     class Test{
+                                     static int i=10;
+                                        static{
+                                        m();
+                                        sout(i);    ==>Direct read
+                                        }
+                                        p s v m1(){
+                                        sout(i);    ==>In-Direct read
+                                        }
+                                     }
+                                     If a variable is just identified by the JVM and Original value not yet assigned then the variable is said to be in Read indirectly write only state(RIWO)
+                                     If a variable is in read indirectly write only state then we cant perform Direct read but we can perform In-direct read
+                                     If we are trying to read directly then we will get compile time error saying Illegal forward reference
+
+Static Block:  Static block will be executed at the time of class loading hence at the time of class loading if we want to perform any activity we have to define that inside static block
+                At the time of java class loading the corresponding libraries should be loaded hence we have to define this activity inside static block
+                class Test{
+                    static{
+                    System.loadlibrary("native library path")
+                    }
+                }
+                After loading every database class we have to register driver class with driver manager but inside DB driver class there is a static block to perform this activity and we are not responsible to register explicitly
+                class DbDriver{
+                    static{
+                        Register this driver with driver manager
+                    }
+                }
+                Within a class we can declare any no of static blocks but all this static block will be executed from top to bottom
+
+                Q1: Without writing main method is it possible to print some statement to the console ? Yes by using static block
+                Eg1:
+                class Test{
+                    static {
+                            System.out.println("Print");
+                            System.exit(0);
+                        }
+                }
+                Q 2: without writing main method and static block is it possible to print some statement to the console? Yes
+                Note: From 1.7 version onwards main method is mandatory to start a program execution hence from 1.7 on wards with writing main method it is impossible to print some statement to console
+
+Static control flow in Parent to child relationship:    Identification of static members from parent to child
+                                                        Execution of static variable assignment and static block from parent to child
+                                                        Execution of child class main method
+Note:   Whenever we are loading child class automatically Parent class will be loaded but Whenever we are loading Parent class child class wont be loaded(because parent class members by default available to child class whereas child class members by default wont be available to parent)
+
+
+01/11/2022
+Eg:1
+class Initialization{
+    private static String m1(String msg){
+        System.out.println(msg);
+        return msg;
+    }
+
+    public Initialization() {
+        m = m1("1");
+    }
+    {
+        m = m1("2");
+    }
+    String m = m1("3");
+}
+public class Practise {
+    public static void main(String[] args) {
+        Object o = new Initialization();
+    }
+}
+
+
+Eg: 2
+
+class Initialization2 {
+    private static String m1(String msg) {
+        System.out.println(msg);
+        return msg;
+    }
+
+    static String m = m1("1");
+
+    {
+        m = m1("2");
+    }
+
+    static {
+        m = m1("3");
+    }
+}
+
+public class Practise {
+    public static void main(String[] args) {
+        Object o = new Initialization2();
+    }
+}
+
+Note: From static area we cant access Instance members directly because while executing static area JVM may not identify Instance members
+        class Test {
+            int x = 10;
+        }
+        public class Practise {
+            public static void main(String[] args) {
+                //System.out.println(x); non-static variable cannot be referenced from a static content
+                Test t = new Test();
+                System.out.println(t.x);
+            }
+        }
+
+*** How many ways we can create a object in java or How many ways we can get Object in Java?
+In how many ways we can create/get Object?
+1)By using new Operator
+Test t = new Test();
+2)By using newInstance() method
+Test t = (Test)Class.forName("Test").newInstance();
+3)By using Factory method
+Runtime r = Runtime.getRuntime();
+DateFormat df = DateFormat.getInstance();
+4)By using clone() method
+Test t1 = new Test();
+Test t2 = (Test)t1.clone();
+5)By using De-serialization
+FileInputStream fis = new FileInputStream("");
+ObjectInputStream ois = new ObjectInputStream(fis);
+
+
+Constructor:    Once we create a Object compulsory we should perform initialization then only the Object is in position to respond properly.
+                Whenever we are creating an Object some piece of the code will be executed automatically to perform Initialization of the Object, this piece of the code is nothing but Constructor hence the main purpose of Constructor is to perform initialization of an Object
+                Eg:
+                class Student {
+                    String name;
+                    int rollNumber;
+
+                    public Student(String name, int rollNumber) {
+                        this.name = name;
+                        this.rollNumber = rollNumber;
+                    }
+                }
+
+                public class Practise {
+                    public static void main(String[] args) {
+                        Student s1 = new Student("Vik", 57);
+                        System.out.println(s1.name + " " + s1.rollNumber);
+                    }
+                }
+** new keyword is used to create a object
+** Constructor is used to perform initialization of an object not to create Object.
+
+Difference between Constructor and Instance BLock
+Constructor is used to perform initialization of an object
+But other than initialization if we want to perform any activity for every object creation then we should go for Instance BLock(like updating one entry in Database for every object creation or incrementing count value for every object creation etc)
+Both Constructor and instance block have there own purpose and replacing one concept with another may not work always
+Both constructor and instance block will be executed for every object creation but Instance block first followed constructor
+        Eg:
+
+class Test{
+    static int count=0;
+    {
+        count++;
+    }
+    public Test() {
+
+    }
+    public Test(int i) {
+
+    }
+    public Test(double d) {
+
+    }
+}
+
+public class Practise {
+    public static void main(String[] args) {
+        Test t = new Test();
+        Test t1 = new Test(1);
+        Test t2 = new Test(7.5);
+        System.out.println(Test.count);
+    }
+}
+Rules of writing Constructor:   1) Name of the class and name of Constructor must be same.
+                                2) Return type concept not applicable for constructor even void also
+                                3) If we are trying to declare return type for the constructor then we wont get any compile time error because compiler treats it as method
+                                class Test{
+                                    void Test(){        ==>It is a method but not constructor
+                                    }
+                                }
+                                4)Method name can be same as Class name but its illegal
+                                Eg:
+                                class Test {
+                                    void Test() {
+                                        System.out.println("Im a method but not constructor");
+                                    }
+                                }
+
+                                public class Practise {
+                                    public static void main(String[] args) {
+                                        Test t = new Test();
+                                        t.Test();
+                                    }
+                                }
+                                5)Public Protected Default Private can only be used as access modifiers for constructor
+
+Default Constructor: 1)Compiler is responsible to generate Default Constructor but not JVM
+                     2)If we are not writing any constructor then only compiler will generate default constructor i.e if we are writing atleast one constructor then compiler will not generate default constructor hence Every class in Java contains Default Constructor generated by compiler or customised by Programmer but not both.
+
+Prototype of default constructor:   1)It is always no-arg constructor
+                                    2)The access modifier of default constructor is same as Class access modifier (this rule is applicable for public and default)
+                                    3)It contains only one line (Super()) it is a no arg call to super class constructor
+
+
+                                    First line every constructor should be either super() or this() and we are not writing anything then compiler will always place super()
+                                    Case 1:we can take super() or this() only in 1st line of constructor if we are trying to take anywhere else we will get compile time error
+                                    class Test{
+                                        Test(){
+                                            sout("Con"); (invalid)
+                                            super();
+                                        }
+                                    }
+
+                                    Case2:  With in constructor we can either super() or this() but not both
+                                    class Test{
+                                        Test(){
+                                            super();
+                                            this(); invalid this must be first statement in constructor
+                                        }
+                                    }
+
+                                    Case 3: we can use super() or this() only inside a constructor if we are trying to use outside of constructor we will get compile time error
+                                    class Test{
+                                        public void m1(){
+                                            super();
+                                            sout("Hi"); invalid super() can only be used inside a constructor but not outside
+                                        }
+                                    }
+
+
+
+                                    super() and this() 1) we can use only one in constructor
+                                                        2)only in first line
+                                                        3)only one but not both simultaneously
+
+super(): 1)These are constructor calls to call super class constructor
+         2)we can use only in constructor as first line
+         3) we can use only once in constructor
+this():  1)These are constructor calls to call current class constructor
+         2)we can use only in constructor as first line
+         3) we can use only once in constructor
+        Eg:
+            class Student {
+                String name;
+                int age;
+
+                Student(String name) {
+                    System.out.println("My name is "+name);
+                }
+
+                Student(int age) {
+                    this("vik");
+                    System.out.println("Age is: "+age);
+                }
+
+                Student() {
+                    this(7);
+                    System.out.println("Default Constructor");
+                }
+            }
+
+            public class Practise {
+                public static void main(String[] args) {
+                    Student s1 = new Student();
+                }
+            }
+
+super: 1)this are keywords to refer super class instance members
+       2)we can use anywhere except static area
+       3)can use any no. of times
+this : 1)this are keywords to refer current class instance members
+       2)we can use anywhere except static area
+       3)can use any no. of times
+       Eg:
+        class Student {
+            String name;
+            int age;
+
+            public Student(String name, int age) {
+                this.name = name;
+                this.age = age;
+            }
+
+            void print() {
+                System.out.println(name + " " + age);
+            }
+        }
+
+        public class Practise {
+            public static void main(String[] args) {
+                Student s1 = new Student("vik", 7);
+                s1.print();
+            }
+        }
+
+Overloaded Constructor: Within a class we can declare multiple constructors and all this constructors having same name but different argument types hence all this constructors are considered as over-loaded constructors hence over-loading applicable to for constructors
+Eg:
+    class Student {
+        String name;
+        int age;
+
+        Student(String name) {
+            System.out.println("My name is "+name);
+        }
+
+        Student(int age) {
+            this("vik");
+            System.out.println("Age is: "+age);
+        }
+
+        Student() {
+            this(7);
+            System.out.println("Default Constructor");
+        }
+    }
+
+    public class Practise {
+        public static void main(String[] args) {
+            Student s1 = new Student();
+            Student s2 = new Student(7);
+            Student s3 = new Student("vik");
+        }
+    }
+
+For Constructor Inheritance and Over-riding concept are not applicable but Over-loading concept is applicable
+Every class in Java including abstract class can contain constructor but Interface cannot contain constructor
+
+**Case 1: Recursive method call is a runtime exception saying stack over flow error
+Eg:
+    class Test {
+        static void m1() {
+            m2();
+        }
+
+        static void m2() {
+            m1();
+        }
+    }
+
+    public class Practise {
+        public static void main(String[] args) {
+            Test.m1();
+            System.out.println("Hello");
+        }
+    }
+** but in our program if there is a chance of recursive constructor invocation then the code will not compile and we will get compile time error saying Recursive constructor invocation
+Eg:
+    class Test {
+        Test() {
+            this(1);
+        }
+
+        Test(int i) {
+            this();
+        }
+    }
+
+    public class Practise {
+        public static void main(String[] args) {
+            System.out.println("Hello");
+        }
+    }
+
+Case 2: Valid
+Eg: 1
+class P{
+    P(){
+        super();    (constructor is provided by compiler)
+    }
+}
+class C extends P{
+    C(){
+         super();   (constructor is provided by compiler)
+     }
+}
+Eg:2 Valid
+class P{
+    P(){    provided by Programmer
+        super();    (super() is provided by compiler)
+    }
+}
+class C extends P{
+    C(){
+         super();   (constructor is provided by compiler)
+     }
+}
+
+Eg3: In-valid
+class P{        provided by Programmer
+    P(int i){
+        super();  (super() is provided by compiler)
+    }
+}
+class C extends P{
+    C(){    (constructor is provided by compiler)
+         super();   cannot find symbol constructor P()
+     }
+}
+
+** Note: 1)If Parent class contains any argument constructor then while writing child classes we have to take special class with respect to constructor
+         2) whenever we are writing any argument constructor it is highly recommended to write no-arg constructor also
+
+Case 3:
+Eg: Problem
+class P {
+    P() throws IOException {
+
+    }
+}
+
+class C extends P {
+    public C() {    unreported exception java.io.IOException in default constructor
+    super();
+    }
+}
+*Solution
+class P {
+    P() throws IOException {
+
+    }
+}
+
+class C extends P {
+    public C() throws IOException|Exception{
+    super();
+    }
+}
+**Note : If parent class constructor any checked exception compulsory child class constructor should throw the same checked exception or its Parent otherwise the code wont compile
+
+Singleton Class: For any java class if we are allowed to create only one object such type of class is called Singleton class.
+Eg: Runtime
+    Business Delegate
+    Service locater
+
+Advantage of Singleton class:
+IF several people have same requirement then it is not recommend to create separate Object for every requirement we have to create only one object and we can re-use same object for every similar requirement so that performance and memory utilization will be improved.
+        Runtime r1 = Runtime.getRuntime();
+        Runtime r2 = Runtime.getRuntime();
+        Runtime r100 = Runtime.getRuntime();
+
+Create Singleton Classes?
+we can create singleton classes for this we have to use private constructor and private static variable and public Factory method
+Approach 1:
+Eg:
+class Test{
+    private static Test t = new Test();
+
+    public Test() {
+    }
+
+    public static Test getT() {
+        return t;
+    }
+}
+public class Practise {
+    public static void main(String[] args) {
+        Test t = Test.getT();
+    }
+}
+Note = Runtime class is internally implemented by using this approach
+
+Approach 2:
+At any point of time for test class we can create only one object hence test class is singleton
+class Test{
+    private static Test t = null;
+
+    public Test() {
+    }
+
+    public static Test getT() {
+        if (t == null){
+            t = new Test();
+        }
+        return t;
+    }
+}
+public class Practise {
+    public static void main(String[] args) {
+        Test t = Test.getT();
+    }
+}
+
+
+Class is not final but we are not allowed to create child classes?
+By declaring every constructor as private we can restrict child class creation
+Eg:
+class P{
+    private P() {
+    }
+}
+class C extends P{
+
+}
+for above class it is impossible to create child class
