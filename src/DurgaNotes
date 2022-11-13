@@ -1,3 +1,5 @@
+********* OOPS Concept *********
+
 Module 1 = 	1)Data Hiding
 			2)Abstraction
 			3)Encapsulation
@@ -19,9 +21,28 @@ Module 2	5)IS-A relationship(Inheritance)
 
 
 1)Data Hiding = Outside person cant access our internal data directly or our internal data should not go out directly is called as Data Hiding. After validation or authentication outside person can access out internal data
-Eg: After providing proper username and password we can access out gmail inbox information
+Eg: After providing proper username and password we can access our  gmail inbox information
 **declaring data member(variable) as private is highly recommended is Data Hiding
 Advantage = 1) security
+Eg:
+class Account {
+    private int balance;
+
+    Account(int balance) {
+        this.balance = balance;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Account ac = new Account(17000);
+        System.out.println(ac.getBalance());
+    }
+}
 
 2)Abstraction(ATM) =	Hiding internal implementation and highlight set of services we are offering is a concept of Abstraction.
 Eg: Through bank ATM GUI screen bank is offering set of services without highlighting internal implementation
@@ -30,12 +51,65 @@ Advantage = 1) security
 3)Encapsulation(Capsule) = The process of binding data and corresponding methods into a single unit is Encapsulation
 Encapsulation = data members + methods
 Encapsulation = Data Hiding + Abstraction
-Advantage = 1) security
+Advantage = 1) we can achieve security but disadvantage is it increases length of code and slows down execution
+            2) Enhancement
+            3) Maintainability
+Eg: Encapsulation
+class Student {
+    private int rollNo;
+
+    public int getRollNo() {
+        return rollNo;
+    }
+}
+Eg: Data hiding + abstraction
+class Account {
+    private int balance;
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+}
 
 4)Tightly Encapsulated = A Class is said to be tightly encapsulated if and only if each and very variable declared as private whether class contains corresponding getters and setters method or not and whether method are declared as public or not this things we are not required to check
-Note : If the parent class is not tightly encapsulated then no child class is tightly encapsulated
+Eg:
+class Account {
+    private int balance;
+    public int getBalance() {
+        return balance;
+    }
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+}
+Q1: Which of the following class are Tightly Encapsulated?
+class A{
+    private int x = 0;      valid
+}
+class B extends A{
+    int y = 20;             In-valid
+}
+class C extends A{
+    private int z = 30;     valid
+}
+Q2: Which of the following class are Tightly Encapsulated?
+class A {
+    int x = 0;              In-valid
+}
 
+class B extends A {         In-valid
+    private int y = 20;
+}
 
+class C extends B {
+    private int z = 30;     In-valid
+}
+
+**Note : If the parent class is not tightly encapsulated then no child class is tightly encapsulated
 
 
 ********************************************* Module 2 *********************************************
@@ -43,37 +117,72 @@ Note : If the parent class is not tightly encapsulated then no child class is ti
 5)IS-A relationship(Inheritance) = 	1)It is also known as Inheritance
 									2)Advantage = code re-usability
 									3)By using extends keyword we can implement IS-A relationship
-                class P{
-                    public void m1()   {
-                        sysout("parent");
+                Eg:
+                class A {
+                    void m1() {
+                        System.out.println("A");
                     }
                 }
-                class C extends P{
-                     public void m2()   {
-                        sysout("child");
-                     }
+
+                class B extends A {
+                    void m2() {
+                        System.out.println("B");
+                    }
                 }
-                class test{
-                    public static void main(String[] args){
-                          P p1 = new C();
-                          p1.m1(); (Valid)
-                          p1.m2(); (In-Valid)
-                          (Parent ref. can be used to hold child object but by using Parent ref. we cant call child specific methods but we can call methods present in Parent class)
-                	}
+
+                public class Main {
+                    public static void main(String[] args) {
+                        A a = new A();
+                        a.m1();
+                        //a.m2();           in-valid    (cant find symbol method m2() in class P)
+
+                        B b = new B();
+                        b.m1();
+                        b.m2();
+
+                        A a1 = new B();
+                        a1.m1();
+                        //a1.m2();          in-valid    (cant find symbol method m2() in class P)
+
+                        B b = new A();      in-valid
+
+                    }
                 }
-** Conclusion =     1)whatever method parents has by default available to child and hence on the child reference we can call both Parent and child class methods.
+** Conclusion =     1)whatever method parents has by default available to child class and hence on the child refer ence we can call both Parent and child class methods.
                     2)whatever method child has by default not available to Parent and hence on the Parent ref. we cant call child specific methods.
                     3)Parent ref. can be used to hold child object but by using the ref. we cant call child specific methods but we can call methods present in Parent class.
                     4)Parent ref. can be used to hold child Object but Child Ref. cant be used to hold Parent Object
                     5)Most common methods which are applicable for any type of child class we have to define in parent class
                     6)Specific methods which are applicable for a particular child we have to define in child class
+Eg:
+class P {
+    void commonMethod() {
+        System.out.println("Common methods");
+    }
+}
 
+class A extends P {
+    //child specific methods
+}
+
+class B extends P {
+    //child specific methods
+}
+
+public class Main {
+    public static void main(String[] args) {
+        A a = new A();
+        a.commonMeth();
+        B b = new B();
+        b.commonMeth();
+    }
+}
                     Total Java API is implemented based on Inheritance Concept.
-                    Most Common methods which are applicable for any java object are defined in Object Class and hence every class in Java is a Child Class of Object either directly or indirectly os that object class method by default to every java class without re-writing due to this Object class act as root for all java classes
+                    Most Common methods which are applicable for any java object are defined in Object Class and hence every class in Java is a Child Class of Object class either directly or indirectly so that object class method by default available to every java class without re-writing due to this Object class act as root for all java classes
                     throwable class defines the most common methods which are req. for every Exception and Error classes hence this class act as root for java exception hierarchy
 
 Multiple-Inheritance = A java class cant extend more then one class at a time hence java wont provide support for multiple-inheritance in classes
-                        class A extends B, C {  (in-valid)
+                        class A extends B, C {  (in-valid)  Java doesn't support multiple inheritance with respect to classes
                         }
 
               Note : 1)If our class doesn't extends any other class then only our class is direct Child class of Object
@@ -100,7 +209,29 @@ Multiple-Inheritance = A java class cant extend more then one class at a time he
                                             sysout("Print)
                                             }
                                           }
+                        Eg:
+                        interface A {
+                            void m1();
+                        }
 
+                        interface B {
+                            void m1();
+                        }
+
+                        class C implements A, B {
+
+                            @Override
+                            public void m1() {
+                                System.out.println("Hi");
+                            }
+                        }
+
+                        public class Main {
+                            public static void main(String[] args) {
+                                A a = new C();
+                                a.m1();
+                            }
+                        }
                       Even though multiple method declaration is available but implementation is unique and hence there is not chance of ambiguity in interfaces
                       Through Interfaces we wont get any inheritance
 
