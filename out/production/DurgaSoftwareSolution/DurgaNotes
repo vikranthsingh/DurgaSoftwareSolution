@@ -327,25 +327,6 @@ Method Signature = In java method signature consist of method name and argument 
                 **Case 1 : Automatic-promotion in overloading while resolving over-loaded methods if exact match is not available then we don't get any compile time error immediately first it will promote argument to next level and check whether matched method is available or not,
                 if matched method is available then it will be considered and if the matched method is not available then compiler promotes argument to next level,
                 This process will be continued until all possible promotions still if the matched method is not available then we will get compile time error
-                Eg:
-                class Test {
-                    void m1(int i) {
-                        System.out.println("int arg method");
-                    }
-
-                    void m1(float f) {
-                        System.out.println("float arg method");
-                    }
-
-                }
-
-                public class Main {
-                    public static void main(String[] args) {
-                        Test t = new Test();
-                        t.m1('C');
-                        t.m1(10l);
-                    }
-                }
 
                 **Case 2: While resolving over-loaded methods compiler always give presidence for child type argument when compared with parent type argument
                 **Case 3: In general var..arg will get least priority if no other method matched then only var... method will get the chance it is exactly same sa default case inside switch
